@@ -1,6 +1,6 @@
 # GWAS meta-analysis of anti-Mullerian hormone (AMH) levels in 7,049 premenopausal women
 
-This repository includes code used to perform analyses for the manuscript 'Genome-wide association study meta-analysis identifies three novel loci for circulating anti-Müllerian hormone levels in women' (available on bioRxiv: xxx). In addition, the summary-level GWAS results from this project can be found in this respository.
+This repository includes code used to perform analyses for the manuscript 'Genome-wide association study meta-analysis identifies three novel loci for circulating anti-Müllerian hormone levels in women' (available on bioRxiv: xxx). In addition, a link to the summary-level GWAS results from this project can be found in this respository.
 
 
 
@@ -52,16 +52,4 @@ Script for performing two-sample Mendelian Randomization analyses for breast can
 
 ## Part 2: Summary-level GWAS results
 
-The file xxx contains summary-level GWAS results from the METAL meta-analyses performed using the script 3_Metal_metaanalysis_phet.txt .
-
-This file includes the following columns:
-MarkerName
-Chr
-Pos
-EffectAllele
-OtherAllele
-EAF
-Effect
-StdErr
-P-value
-TotalSampleSize
+The summary-level data from the AMH GWAS meta-analysis will be posted to the GWAS catalog (https://www.ebi.ac.uk/gwas/). The corresponding link will be included here once our data are available online.
