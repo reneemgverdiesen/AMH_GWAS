@@ -1,0 +1,82 @@
+#######################################################
+## Script to perform AMH GWAS meta-analysis in METAL ##
+##                                                   ##
+##                      25.02.2020                   ##
+##                                                   ## 
+##           Renée Verdiesen & Linda Vissers         ##
+#######################################################
+
+
+# The aim of this script is to perform the AMH meta-analysis in METAL and calculate p values for heterogeneity for the main meta-analysis
+# For this we will use the SE based analysis and perform genomic control on all inut study files
+# An additional VERBOSE analysis will be performed for potential genome-wide significant hits only
+# This VERBOSE analysis will give us more details on study specific beta's, allele frequencies and heterogeneity
+
+
+# METAL settings
+# You can request a standard error based analysis by uncommenting the following line:
+SCHEME               STDERR
+
+# Usually, it is a good to apply genomic control to each input file.
+# To turn on genomic control, uncomment the following line.
+GENOMICCONTROL       ON
+
+# To help identify allele flips, it can be useful to track allele frequencies in the meta-analysis. 
+# To enable this capability, uncomment the following two lines.
+AVERAGEFREQ          ON
+MINMAXFREQ           ON
+
+# Only use this function later for potential significant hits
+VERBOSE              OFF
+
+# Make variable for the total sample size per SNP
+CUSTOMVARIABLE      TotalSampleSize
+LABEL               TotalSampleSize as N
+
+
+# Describe and process the files with imputation quality metric == info; ALSPAC (x2), and previous GWAS
+# Threshold info > 0.4
+SEPARATOR     TAB
+MARKER        CHRPOS
+ALLELE        EFFECT_ALLELE OTHER_ALLELE
+FREQ          EAF
+EFFECT        BETA
+STDERR        SE
+WEIGHT        N
+ADDFILTER     R2 > 0.4
+ADDFILTER     EAF > 0.01
+ADDFILTER     EAF < 0.99
+PROCESS       /path/to/AMH_GWAS/MetaAnalysis/Output/FilelevelQC/19092019_FINAL_SUMSTAT.PREVIOUSGWAS.gz
+PROCESS       /path/to/AMH_GWAS/MetaAnalysis/Output/FilelevelQC/19092019_FINAL_SUMSTAT.ALSPAC_moms.gz
+PROCESS       /path/to/AMH_GWAS/MetaAnalysis/Output/FilelevelQC/19092019_FINAL_SUMSTAT.ALSPAC_daughters.gz
+
+REMOVEFILTERS
+
+
+# Describe and process the files with imputation quality metric == R2; DCS and SWAN
+# Threshold R2 > 0.3
+SEPARATOR     TAB
+MARKER        CHRPOS
+ALLELE        EFFECT_ALLELE OTHER_ALLELE
+FREQ          EAF
+EFFECT        BETA
+STDERR        SE
+WEIGHT        N
+ADDFILTER     R2 > 0.3
+ADDFILTER     EAF > 0.01
+ADDFILTER     EAF < 0.99
+PROCESS       /path/to/AMH_GWAS/MetaAnalysis/Output/FilelevelQC/19092019_FINAL_SUMSTAT.DCS.gz
+PROCESS       /path/to/AMH_GWAS/MetaAnalysis/Output/FilelevelQC/19092019_FINAL_SUMSTAT.SWAN.gz
+
+REMOVEFILTERS
+
+
+# Specifiy name output file
+OUTFILE       AMH_METAANALYSIS_main_final_phet .TBL
+
+# Perform meta-analysis
+ANALYZE       HETEROGENEITY
+
+
+# Quit METAL
+QUIT
