@@ -24,7 +24,7 @@ do
 $gcta --bfile epicnl.ped.norelatedness.for.gcta_chr$chr \
 	    --chr $chr \
 	    --cojo-file gcta.input.AMHGWAS.ma \
-      --cojo-slct \
+          --cojo-slct \
 	    --cojo-p 5e-8 \
 	    --thread-num 4 \
 	    --out /path/to/AMH_GWAS/MetaAnalysis/Output/Meta_analysis/Paper/Final_GCTAresults/cojo.gcta.chr$chr
