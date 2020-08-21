@@ -87,7 +87,8 @@ rm(amh_dat)
 
 # Step 2.1 MR analysis AMH and breast cancer
 
-# We used breast cancer summary statistics (Zhang et al., 2019, https://www.biorxiv.org/content/10.1101/778605v2.full), downloaded at 29.11.2019
+# We used breast cancer summary statistics corresponding to the manuscript of K Michailidou et al. (2017)
+# These data were downloaded on 29.11.2019 from http://bcac.ccge.medschl.cam.ac.uk/bcacdata/oncoarray/oncoarray-and-combined-summary-result/gwas-summary-results-breast-cancer-risk-2017
 # Extract only AMH SNPs from breast cancer outcome file
 bcac_dat <- read_outcome_data(
   filename = "/path/to/AMH GWAS/C Data/MR_analyses/Summarystatistics_outcomes/BCAC_MR.txt.gz",
@@ -187,7 +188,9 @@ rm(list = bc, bc)
 
 
 # Step 2.2 MR analysis AMH and PCOS
-# PCOS summary stats downloaded on 02-12-2019 from https://www.repository.cam.ac.uk/handle/1810/283491
+# We used PCOS summary statistics corresponding to the manuscript of F Day et al. (2018), 
+# These data were downloaded on 02-12-2019 from https://www.repository.cam.ac.uk/handle/1810/283491
+# Extract only AMH SNPs from PCOS outcome file
 pcos_dat <- read_outcome_data(
   filename = "/path/to/AMH GWAS/C Data/MR_analyses/Summarystatistics_outcomes/PCOS/PCOS_summary_data_19092018.txt",
   sep = "auto",
