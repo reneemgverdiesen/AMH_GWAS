@@ -1,0 +1,104 @@
+###############################################################
+##               Script to perform meta level QC             ##
+##                                                           ##
+##                         23.01.2020	                     ##
+##                                                           ##
+##                   Script by Renée Verdiesen               ##
+###############################################################
+
+
+# The aim of this script is to perform the meta level QC for all studies
+# The following actions will be performed:
+# 1. Make SE-N plot
+# 2. Make P-Z scatter plot
+# 3. Alelle frequency check
+# 4. Make QQ plot 
+# 5. Identification of population stratification
+
+
+# This script is based on the example script at https://homepages.uni-regensburg.de/~wit59712/easyqc/1000g/fileqc_1000G.ecf
+# Information on EasyQC can be found at: https://homepages.uni-regensburg.de/~wit59712/easyqc/EasyQC_9.0_Commands_140918_2.pdf
+
+
+# Define format and input columns of the imput files - the format of the input files is made uniformal using the .ecf scripts in study-specific folders
+DEFINE    --pathOut /path/to/AMH_GWAS/MetaAnalysis/Output/Meta_analysis/Paper/Final_metalevelQC
+          --strSeparator TAB
+          --acolIn CHRPOS;POS;EFFECT_ALLELE;OTHER_ALLELE;EAF;BETA;SE;PVAL;N;R2
+	  --acolInClasses character;integer;character;character;numeric;numeric;numeric;numeric;integer;numeric
+          --blnUseFastRead 0
+   
+   
+# Define input files
+EASYIN	  --fileIn /path/to/AMH_GWAS/MetaAnalysis/Output/FilelevelQC/19092019_FINAL_SUMSTAT.PREVIOUSGWAS.gz
+	  --fileInShortName PREVIOUSGWAS
+EASYIN	  --fileIn /path/to/AMH_GWAS/MetaAnalysis/Output/FilelevelQC/19092019_FINAL_SUMSTAT.DCS.gz
+	  --fileInShortName DCS
+EASYIN	  --fileIn /path/to/AMH_GWAS/MetaAnalysis/Output/FilelevelQC/19092019_FINAL_SUMSTAT.ALSPAC_moms.gz
+	  --fileInShortName ALSPAC_moms
+EASYIN	  --fileIn /path/to/AMH_GWAS/MetaAnalysis/Output/FilelevelQC/19092019_FINAL_SUMSTAT.SWAN.gz
+	  --fileInShortName SWAN
+EASYIN	  --fileIn /path/to/AMH_GWAS/MetaAnalysis/Output/FilelevelQC/19092019_FINAL_SUMSTAT.ALSPAC_daughters.gz
+ 	  --fileInShortName ALSPAC_daughters
+
+
+START EASYQC
+        
+
+
+# Step 1: Make SE-N plot
+CALCULATE --rcdCalc max(N,na.rm=T) 
+	  --strCalcName N_max
+CALCULATE --rcdCalc median(SE,na.rm=T) 
+	  --strCalcName SE_median
+
+
+RPLOT 	  --rcdRPlotX sqrt(N_max)
+		--rcdRPlotY 8.86/SE_median
+		--strAxes zeroequal
+		--strPlotName SEN-PLOT_paper
+
+
+
+# Step 2: Make P-Z scatter plot
+PZPLOT	  --colBeta BETA 
+		--colSe SE 
+		--colPval PVAL
+		--strPlotName PZ-PLOT_paper
+
+
+
+# Step 3: Alelle frequency check
+AFCHECK --colInMarker CHRPOS
+    	  --colInA1 EFFECT_ALLELE
+	  --colInA2 OTHER_ALLELE
+   	  --colInFreq EAF
+	    --fileRef /path/to/AMH_GWAS/MetaAnalysis/HRC.r1-1.GRCh37.wgs.mac5.sites.tab.cptid.maf001.gz
+      	    --colRefMarker cptid
+	    --colRefA1 ref
+            --colRefA2 alt
+      	    --colRefFreq raf
+
+
+
+# Step 4: QQ plot
+QQPLOT	  --acolQQPlot PVAL
+		--numPvalOffset 0.05
+		--strMode subplot
+	      	--strPlotName QQ-PLOT_paper
+
+
+
+# Step 5: Identification of population stratification
+GC  	  --colPval PVAL
+    	  --blnSuppressCorrection 1
+    
+RPLOT   --rcdRPlotX N_max
+    	  --rcdRPlotY Lambda.PVAL.GC
+	  --strAxes lim(NULL,NULL,NULL,1.2)
+    	  --arcdAdd2Plot abline(h=1,col='orange');abline(h=1.1,col='red')
+    	  --strPlotName GC-PLOT_paper
+
+
+
+# End of file level QC
+STOP EASYQC
