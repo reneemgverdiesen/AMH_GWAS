@@ -46,7 +46,7 @@ Script for performing approximate conditional and joint association analysis (co
 Scipt for performing pathway analysis using DEPICT (https://github.com/perslab/depict). For this analysis we included all suggestive significant SNPs (p < 5 x 10-6), which were clumped at LD r2 < 0.1 and a physical distance of 500kb using PLINK v.1.9 as part of the DEPICT pipeline.
 
 
-#### 6. 6_R_MRbase.R
+####6. 6_R_twosampleMR.R
 Script for performing two-sample Mendelian Randomization analyses for breast cancer and polycystic ovary syndrome (PCOS). For these analyses we used summary-level from the breast cancer GWAS by K Michailidou et al. (2017) (doi: 10.1038/nature24284) and the PCOS GWAS by F Day et al. (2018) (doi: 10.1371/journal.pgen.1007813). Mendelian Randomization analyses were performed the R package TwoSampleMR (version 0.5.1) (https://mrcieu.github.io/TwoSampleMR/).
 
 
