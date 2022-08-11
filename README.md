@@ -1,6 +1,6 @@
 # GWAS meta-analysis of anti-Müllerian hormone (AMH) levels in 7,049 premenopausal women
 
-This repository includes code used to perform analyses for the manuscript for the following publication:
+This repository includes the code used to perform analyses for the manuscript for the following publication:
 
 Verdiesen, Renée MG, et al. "Genome-wide association study meta-analysis identifies three novel loci for circulating anti-Müllerian hormone levels in women." Human Reproduction 37.5 (2022): 1069-1082. doi: 10.1093/humrep/deac028. 
 
